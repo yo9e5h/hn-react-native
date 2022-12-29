@@ -4,13 +4,25 @@ import {useNavigation} from '@react-navigation/native';
 import {Story} from 'types/StoryTypes';
 import moment from 'moment';
 
-const NewsListItem = ({item}: {item: Story}) => {
+const NewsListItem = ({
+  item,
+  isJob,
+  hasUrl,
+}: {
+  item: Story;
+  isJob: boolean;
+  hasUrl: boolean;
+}) => {
   const navigation = useNavigation();
   const time = moment.unix(item.time).fromNow();
 
   return (
     <Pressable
-      onPress={() => navigation.navigate('SinglePost', {id: item.id})}
+      onPress={() =>
+        navigation.navigate('SinglePost', {
+          story: item,
+        })
+      }
       style={{
         flexDirection: 'row',
         borderBottomWidth: 1,
@@ -53,14 +65,26 @@ const NewsListItem = ({item}: {item: Story}) => {
           }}>
           {item.by} • {time}
         </Text>
-        <Text
-          style={{
-            color: '#6b7280',
-            fontSize: 12,
-            paddingTop: 2,
-          }}>
-          {item.score} points • {item.descendants} comments
-        </Text>
+        {!isJob && (
+          <Text
+            style={{
+              color: '#6b7280',
+              fontSize: 12,
+              paddingTop: 2,
+            }}>
+            {item.descendants} comments
+          </Text>
+        )}
+        {hasUrl ? (
+          <Text
+            style={{
+              color: '#6b7280',
+              fontSize: 12,
+              paddingTop: 2,
+            }}>
+            {item.url}
+          </Text>
+        ) : null}
       </View>
     </Pressable>
   );

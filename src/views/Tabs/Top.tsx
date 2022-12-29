@@ -1,9 +1,8 @@
 import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {usePosts} from 'src/hooks/usePosts';
-import NewsListItem from 'components/NewsListItem';
-import {FlashList} from '@shopify/flash-list';
 import LoadingScreen from 'components/LoadingScreen';
+import StoryList from 'components/Home/StoryList';
 
 const Top = () => {
   const [page, setPage] = React.useState<number>(0);
@@ -34,19 +33,13 @@ const Top = () => {
 
   return (
     <View style={style.container}>
-      <FlashList
+      <StoryList
+        hasUrl={true}
+        isJob={false}
         data={data}
-        renderItem={({item}) => <NewsListItem item={item} />}
-        keyExtractor={item => item.id.toString()}
-        estimatedItemSize={100}
         refreshing={refreshing}
-        onRefresh={() => {
-          handleRefresh();
-        }}
-        onEndReached={() => {
-          loadMore();
-        }}
-        onEndReachedThreshold={0.5}
+        onRefresh={handleRefresh}
+        onEndReached={loadMore}
       />
     </View>
   );

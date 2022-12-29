@@ -1,6 +1,7 @@
 import {MaterialTopTabScreenProps} from '@react-navigation/material-top-tabs';
 import {NavigatorScreenParams} from '@react-navigation/native';
 import {NativeStackScreenProps} from '@react-navigation/native-stack';
+import {Story} from './StoryTypes';
 
 declare global {
   namespace ReactNavigation {
@@ -14,8 +15,9 @@ declare global {
 export type RootStackParamList = {
   TopTabs: undefined;
   SinglePost: {
-    id: number;
+    story: Story;
   };
+  NotFound: undefined;
 };
 
 export type TopTabParamList = {

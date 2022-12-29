@@ -1,6 +1,7 @@
-import {Button, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import React from 'react';
 import {RootStackScreenProps} from 'types/NavigationTypes';
+import Comments from 'components/SinglePost/Comments';
 
 const SinglePost = ({
   navigation,
@@ -8,16 +9,17 @@ const SinglePost = ({
 }: RootStackScreenProps<'SinglePost'>) => {
   const params = route.params;
 
+  console.log(navigation);
+
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+    },
+  });
+
   return (
-    <View>
-      <Text>SinglePost</Text>
-      <Text>{params.id}</Text>
-      <Button
-        title="Back to TopTabs"
-        onPress={() => {
-          navigation.navigate('TopTabs');
-        }}
-      />
+    <View style={styles.container}>
+      <Comments story={params.story} comments={params.story.kids} />
     </View>
   );
 };
