@@ -5,10 +5,9 @@ import useTime from 'src/hooks/useTime';
 import {View, Text} from 'components/Themed';
 import RenderHTML from 'react-native-render-html';
 import useColorScheme from 'hooks/useColorScheme';
+import Comments from './Comments';
 
 const Comment = ({comment}: {comment: CommentType}) => {
-  console.log(comment);
-
   const theme = useColorScheme();
   const time = useTime(comment.time);
   const source = {
@@ -18,6 +17,8 @@ const Comment = ({comment}: {comment: CommentType}) => {
   const styles = StyleSheet.create({
     container: {
       padding: 8,
+      borderLeftWidth: 1,
+      borderLeftColor: '#FF6600',
     },
     time: {
       fontSize: 12,
@@ -41,9 +42,11 @@ const Comment = ({comment}: {comment: CommentType}) => {
           [deleted] • {time}
         </Text>
       )}
-      <Text style={styles.time} darkColor="#6b7280" lightColor="#6b7280">
-        {comment.by} • {time}
-      </Text>
+      {!comment.deleted && (
+        <Text style={styles.time} darkColor="#6b7280" lightColor="#6b7280">
+          {comment.by} • {time}
+        </Text>
+      )}
       <RenderHTML
         baseStyle={styles.html}
         key={comment.id}
@@ -51,9 +54,20 @@ const Comment = ({comment}: {comment: CommentType}) => {
         source={source}
       />
       {comment.kids && (
-        <Text style={styles.labelText} darkColor="#6b7280" lightColor="#6b7280">
-          {comment.kids.length} replies
-        </Text>
+        <>
+          <Text
+            style={{
+              marginBottom: 4,
+              ...styles.labelText,
+            }}
+            darkColor="#6b7280"
+            lightColor="#6b7280">
+            {comment.kids.length === 1
+              ? `${comment.kids.length} reply`
+              : `${comment.kids.length} replies`}
+          </Text>
+          <Comments comments={comment.kids} />
+        </>
       )}
     </View>
   );

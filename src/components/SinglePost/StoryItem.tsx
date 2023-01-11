@@ -42,7 +42,6 @@ const StoryItem = ({item}: {item: Story}) => {
       fontSize: 14,
     },
     time: {
-      color: '#6b7280',
       fontSize: 12,
       paddingTop: 2,
     },
@@ -60,7 +59,7 @@ const StoryItem = ({item}: {item: Story}) => {
       </View>
       <View style={styles.container}>
         <Text style={styles.titleText}>{item.title}</Text>
-        <Text style={styles.time}>
+        <Text style={styles.time} lightColor="#4b5563" darkColor="#d1d5db">
           {item.by} • {useTime(item.time)}
         </Text>
         <Text style={styles.url}>{item.url}</Text>
