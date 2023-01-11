@@ -4,18 +4,21 @@ import {RootStackParamList} from 'types/NavigationTypes';
 import TopTabs from './TopTabs';
 import SinglePost from 'views/Root/SinglePost';
 import NotFoundScreen from 'views/Root/NotFoundScreen';
-import {Pressable} from 'react-native';
+import {Pressable, Share} from 'react-native';
 import ShareSheet from 'views/Root/ShareSheet';
 import useColorScheme from 'hooks/useColorScheme';
 import SaveScreen from 'views/Root/SaveScreen';
-import IconUser from 'src/assets/IconUser';
 import IconShare from 'src/assets/IconShare';
 import {View} from 'components/Themed';
 import IconBookmark from 'src/assets/IconBookmark';
+import useFavouriteStore from 'src/store/favouriteStore';
 
 export default function Navigation() {
   const Stack = createNativeStackNavigator<RootStackParamList>();
   const theme = useColorScheme();
+  const toggleFavourite = useFavouriteStore(state => state.toggleFavourite);
+  const favourites = useFavouriteStore(state => state.favourites);
+
   return (
     <Stack.Navigator
       initialRouteName="TopTabs"
@@ -39,21 +42,14 @@ export default function Navigation() {
             <View
               style={{
                 flexDirection: 'row',
+                backgroundColor: 'transparent',
               }}>
               <Pressable
-                style={{
-                  marginRight: 8,
-                }}
+                style={{}}
                 onPress={() => {
                   navigation.navigate('Save');
                 }}>
-                <IconBookmark color={theme === 'dark' ? '#fff' : '#000'} />
-              </Pressable>
-              <Pressable
-                onPress={() => {
-                  navigation.navigate('NotFound');
-                }}>
-                <IconUser color={theme === 'dark' ? '#fff' : '#000'} />
+                <IconBookmark color="#ff6600" fillColor="#ff6600" />
               </Pressable>
             </View>
           ),
@@ -66,14 +62,39 @@ export default function Navigation() {
           headerBackTitleVisible: false,
           title: 'Post',
           headerRight: () => (
-            <Pressable
-              onPress={() => {
-                navigation.navigate('Share', {
-                  story: route.params.story,
-                });
+            <View
+              darkColor="#000"
+              lightColor="#fff"
+              style={{
+                flexDirection: 'row',
               }}>
-              <IconShare color="#FF6600" />
-            </Pressable>
+              <Pressable
+                style={{
+                  marginRight: 8,
+                }}
+                onPress={() => {
+                  toggleFavourite(route.params.story);
+                }}>
+                <IconBookmark
+                  color="#ff6600"
+                  fillColor={
+                    favourites.some(
+                      favourite => favourite.id === route.params.story.id,
+                    )
+                      ? '#ff6600'
+                      : 'transparent'
+                  }
+                />
+              </Pressable>
+              <Pressable
+                onPress={() => {
+                  Share.share({
+                    message: `https://news.ycombinator.com/item?id=${route.params.story.id}`,
+                  });
+                }}>
+                <IconShare color="#FF6600" />
+              </Pressable>
+            </View>
           ),
         })}
       />

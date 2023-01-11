@@ -8,8 +8,12 @@ import {StyleSheet} from 'react-native';
 import IconComment from 'src/assets/IconComment';
 import IconBookmark from 'src/assets/IconBookmark';
 import useColorScheme from 'hooks/useColorScheme';
+import useFavouriteStore from 'src/store/favouriteStore';
 
 const NewsListItem = ({item}: {item: Story}) => {
+  const favourites = useFavouriteStore(state => state.favourites);
+  const isFavourite = favourites.some(favourite => favourite.id === item.id);
+  const toggleFavourite = useFavouriteStore(state => state.toggleFavourite);
   const theme = useColorScheme();
   const navigation = useNavigation();
   const time = useTime(item.time);
@@ -106,13 +110,24 @@ const NewsListItem = ({item}: {item: Story}) => {
                 {item.descendants > 1 ? 'Comments' : 'Comment'}
               </Text>
             </View>
-            <Pressable style={style.labelWithIcon}>
-              <IconBookmark color={theme === 'dark' ? '#22c55e' : '#16a34a'} />
+            <Pressable
+              style={style.labelWithIcon}
+              onPress={() => toggleFavourite(item)}>
+              <IconBookmark
+                color={theme === 'dark' ? '#22c55e' : '#16a34a'}
+                fillColor={
+                  isFavourite
+                    ? theme === 'dark'
+                      ? '#22c55e'
+                      : '#16a34a'
+                    : 'transparent'
+                }
+              />
               <Text
                 style={style.label}
                 lightColor="#16a34a"
                 darkColor="#22c55e">
-                Save
+                {isFavourite ? 'Saved' : 'Save'}
               </Text>
             </Pressable>
           </View>

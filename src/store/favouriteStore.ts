@@ -1,21 +1,26 @@
-import zustand from 'zustand';
+import {Story} from 'types/StoryTypes';
+import {create} from 'zustand';
 
 type favouriteState = {
-  favourites: number[];
-  addFavourite: (id: number) => void;
-  removeFavourite: (id: number) => void;
+  favourites: Story[];
+  toggleFavourite: (story: Story) => void;
 };
 
-const useFavouriteStore = zustand<favouriteState>((set, get) => ({
+const useFavouriteStore = create<favouriteState>((set, get) => ({
   favourites: [],
 
-  addFavourite: (id: number) => {
+  toggleFavourite: (story: Story) => {
     const {favourites} = get();
-    set({favourites: [...favourites, id]});
-  },
-  removeFavourite: (id: number) => {
-    const {favourites} = get();
-    set({favourites: favourites.filter(fav => fav !== id)});
+    const isFavourite = favourites.find(fav => fav.id === story.id);
+    if (isFavourite) {
+      set({
+        favourites: favourites.filter(fav => fav.id !== story.id),
+      });
+    } else {
+      set({
+        favourites: [...favourites, story],
+      });
+    }
   },
 }));
 
