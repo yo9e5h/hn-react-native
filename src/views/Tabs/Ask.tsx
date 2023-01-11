@@ -22,10 +22,6 @@ const Ask = () => {
     });
   };
 
-  const loadMore = () => {
-    refetch();
-  };
-
   const style = StyleSheet.create({
     container: {
       flex: 1,
@@ -38,7 +34,6 @@ const Ask = () => {
         data={data}
         refreshing={refreshing}
         onRefresh={handleRefresh}
-        onEndReached={loadMore}
       />
     </View>
   );

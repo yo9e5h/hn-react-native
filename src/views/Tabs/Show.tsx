@@ -22,10 +22,6 @@ const Show = () => {
     });
   };
 
-  const loadMore = () => {
-    refetch();
-  };
-
   const style = StyleSheet.create({
     container: {
       flex: 1,
@@ -38,7 +34,6 @@ const Show = () => {
         data={data}
         refreshing={refreshing}
         onRefresh={handleRefresh}
-        onEndReached={loadMore}
       />
     </View>
   );

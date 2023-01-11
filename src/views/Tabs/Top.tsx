@@ -22,10 +22,6 @@ const Top = () => {
     });
   };
 
-  const loadMore = () => {
-    setPage(page + 1);
-  };
-
   const style = StyleSheet.create({
     container: {
       flex: 1,
@@ -38,7 +34,6 @@ const Top = () => {
         data={data}
         refreshing={refreshing}
         onRefresh={handleRefresh}
-        onEndReached={loadMore}
       />
     </View>
   );

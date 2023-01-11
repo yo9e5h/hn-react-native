@@ -7,12 +7,10 @@ const StoryList = ({
   data,
   refreshing,
   onRefresh,
-  onEndReached,
 }: {
   data?: readonly any[] | null | undefined;
   refreshing: boolean;
   onRefresh: () => void;
-  onEndReached: () => void;
 }) => {
   return (
     <FlashList
@@ -25,8 +23,6 @@ const StoryList = ({
       estimatedItemSize={100}
       refreshing={refreshing}
       onRefresh={onRefresh}
-      onEndReached={onEndReached}
-      onEndReachedThreshold={0.5}
     />
   );
 };
