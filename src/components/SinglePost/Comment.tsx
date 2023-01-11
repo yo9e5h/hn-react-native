@@ -14,7 +14,7 @@ const Comment = ({comment}: {comment: CommentType}) => {
     html: comment.text,
   };
 
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     container: {
       padding: 8,
       borderLeftWidth: 1,
@@ -27,6 +27,7 @@ const Comment = ({comment}: {comment: CommentType}) => {
     labelText: {
       fontSize: 12,
       paddingVertical: 2,
+      marginBottom: 4,
     },
     html: {
       color: theme === 'dark' ? '#d1d5db' : '#1f2937',
@@ -36,19 +37,19 @@ const Comment = ({comment}: {comment: CommentType}) => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       {comment.deleted && (
-        <Text style={styles.html} darkColor="#6b7280" lightColor="#6b7280">
+        <Text style={style.html} darkColor="#6b7280" lightColor="#6b7280">
           [deleted] • {time}
         </Text>
       )}
       {!comment.deleted && (
-        <Text style={styles.time} darkColor="#6b7280" lightColor="#6b7280">
+        <Text style={style.time} darkColor="#6b7280" lightColor="#6b7280">
           {comment.by} • {time}
         </Text>
       )}
       <RenderHTML
-        baseStyle={styles.html}
+        baseStyle={style.html}
         key={comment.id}
         contentWidth={50}
         source={source}
@@ -56,10 +57,7 @@ const Comment = ({comment}: {comment: CommentType}) => {
       {comment.kids && (
         <>
           <Text
-            style={{
-              marginBottom: 4,
-              ...styles.labelText,
-            }}
+            style={style.labelText}
             darkColor="#6b7280"
             lightColor="#6b7280">
             {comment.kids.length === 1

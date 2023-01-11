@@ -6,14 +6,14 @@ import {Text, View} from 'components/Themed';
 const NotFoundScreen = ({navigation}: RootStackScreenProps<'NotFound'>) => {
   console.log(navigation);
 
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     container: {
       flex: 1,
     },
   });
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <Text>
         This screen doesn't exist.
         {'\n'}

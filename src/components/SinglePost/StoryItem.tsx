@@ -15,7 +15,7 @@ const StoryItem = ({item}: {item: Story}) => {
     }
   };
 
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     pressable: {
       flexDirection: 'row',
       borderBottomWidth: 1,
@@ -53,16 +53,16 @@ const StoryItem = ({item}: {item: Story}) => {
   });
 
   return (
-    <Pressable onPress={loadInBrowser} style={styles.pressable}>
-      <View style={styles.scoreView}>
-        <Text style={styles.scoreText}>{item.score}</Text>
+    <Pressable onPress={loadInBrowser} style={style.pressable}>
+      <View style={style.scoreView}>
+        <Text style={style.scoreText}>{item.score}</Text>
       </View>
-      <View style={styles.container}>
-        <Text style={styles.titleText}>{item.title}</Text>
-        <Text style={styles.time} lightColor="#4b5563" darkColor="#d1d5db">
+      <View style={style.container}>
+        <Text style={style.titleText}>{item.title}</Text>
+        <Text style={style.time} lightColor="#4b5563" darkColor="#d1d5db">
           {item.by} • {useTime(item.time)}
         </Text>
-        <Text style={styles.url}>{item.url}</Text>
+        <Text style={style.url}>{item.url}</Text>
       </View>
     </Pressable>
   );

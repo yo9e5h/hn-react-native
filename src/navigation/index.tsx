@@ -4,8 +4,7 @@ import {RootStackParamList} from 'types/NavigationTypes';
 import TopTabs from './TopTabs';
 import SinglePost from 'views/Root/SinglePost';
 import NotFoundScreen from 'views/Root/NotFoundScreen';
-import {Pressable, Share} from 'react-native';
-import ShareSheet from 'views/Root/ShareSheet';
+import {Pressable, Share, StyleSheet} from 'react-native';
 import useColorScheme from 'hooks/useColorScheme';
 import SaveScreen from 'views/Root/SaveScreen';
 import IconShare from 'src/assets/IconShare';
@@ -18,6 +17,16 @@ export default function Navigation() {
   const theme = useColorScheme();
   const toggleFavourite = useFavouriteStore(state => state.toggleFavourite);
   const favourites = useFavouriteStore(state => state.favourites);
+
+  const style = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      backgroundColor: 'transparent',
+    },
+    pressable: {
+      marginRight: 8,
+    },
+  });
 
   return (
     <Stack.Navigator
@@ -39,13 +48,9 @@ export default function Navigation() {
           headerBackTitleVisible: false,
           title: 'News',
           headerRight: () => (
-            <View
-              style={{
-                flexDirection: 'row',
-                backgroundColor: 'transparent',
-              }}>
+            <View style={style.container}>
               <Pressable
-                style={{}}
+                style={style.pressable}
                 onPress={() => {
                   navigation.navigate('Save');
                 }}>
@@ -58,20 +63,13 @@ export default function Navigation() {
       <Stack.Screen
         name="SinglePost"
         component={SinglePost}
-        options={({route, navigation}) => ({
+        options={({route}) => ({
           headerBackTitleVisible: false,
           title: 'Post',
           headerRight: () => (
-            <View
-              darkColor="#000"
-              lightColor="#fff"
-              style={{
-                flexDirection: 'row',
-              }}>
+            <View style={style.container}>
               <Pressable
-                style={{
-                  marginRight: 8,
-                }}
+                style={style.pressable}
                 onPress={() => {
                   toggleFavourite(route.params.story);
                 }}>
@@ -102,14 +100,6 @@ export default function Navigation() {
         name="NotFound"
         component={NotFoundScreen}
         options={{title: 'Oops!'}}
-      />
-      <Stack.Screen
-        name="Share"
-        component={ShareSheet}
-        options={{
-          title: 'Share',
-          presentation: 'modal',
-        }}
       />
       <Stack.Screen
         name="Save"

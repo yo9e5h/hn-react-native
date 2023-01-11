@@ -6,7 +6,7 @@ import useColorScheme from 'hooks/useColorScheme';
 const LoadingScreen = () => {
   const theme = useColorScheme();
 
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     container: {
       flex: 1,
       justifyContent: 'center',
@@ -15,7 +15,7 @@ const LoadingScreen = () => {
   });
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <ActivityIndicator color={theme === 'dark' ? '#fff' : '#000'} />
     </View>
   );

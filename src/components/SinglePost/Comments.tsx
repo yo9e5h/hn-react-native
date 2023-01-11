@@ -10,7 +10,7 @@ import useColorScheme from 'hooks/useColorScheme';
 const Comments = ({comments}: {comments: number[]}) => {
   const theme = useColorScheme();
   const {data, isLoading} = useComments(comments);
-  const styles = StyleSheet.create({
+  const style = StyleSheet.create({
     container: {
       flex: 1,
     },
@@ -35,18 +35,18 @@ const Comments = ({comments}: {comments: number[]}) => {
 
   if (isLoading) {
     return (
-      <View style={styles.center}>
+      <View style={style.center}>
         <ActivityIndicator />
       </View>
     );
   }
 
   return (
-    <View style={styles.container}>
+    <View style={style.container}>
       <FlashList
         data={data}
         estimatedItemSize={100}
-        ItemSeparatorComponent={() => <View style={styles.text} />}
+        ItemSeparatorComponent={() => <View style={style.text} />}
         renderItem={({item}: {item: CommentType}) => <Comment comment={item} />}
         keyExtractor={item => item.id.toString()}
       />

@@ -8,20 +8,27 @@ import NewsListItem from 'components/Home/NewsListItem';
 const SaveScreen = () => {
   const favourites = useFavouriteStore(state => state.favourites);
 
+  const style = StyleSheet.create({
+    container: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    text: {
+      fontSize: 16,
+      fontWeight: '500',
+      color: '#8b949e',
+    },
+    height: {height: 1},
+    flashListContainer: {
+      flex: 1,
+    },
+  });
+
   if (favourites.length === 0) {
     return (
-      <View
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
-        <Text
-          style={{
-            fontSize: 16,
-            fontWeight: '500',
-            color: '#8b949e',
-          }}>
+      <View style={style.container}>
+        <Text style={style.text}>
           Nothing here, Read something and check later.
         </Text>
       </View>
@@ -29,24 +36,18 @@ const SaveScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={style.flashListContainer}>
       <FlashList
         data={favourites}
         renderItem={({item}) => <NewsListItem item={item} />}
         keyExtractor={item => item.id.toString()}
         ItemSeparatorComponent={() => (
-          <View style={{height: 1}} darkColor="#1f2937" lightColor="#e5e7eb" />
+          <View style={style.height} darkColor="#1f2937" lightColor="#e5e7eb" />
         )}
         estimatedItemSize={100}
       />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default SaveScreen;
