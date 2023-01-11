@@ -6,14 +6,19 @@ import {TopTabParamList} from 'types/NavigationTypes';
 import Show from 'views/Tabs/Show';
 import Jobs from 'views/Tabs/Jobs';
 import New from 'views/Tabs/New';
+import useColorScheme from 'hooks/useColorScheme';
 
 const Tab = createMaterialTopTabNavigator<TopTabParamList>();
 
 function TopTabs() {
+  const theme = useColorScheme();
+
   return (
     <Tab.Navigator
       screenOptions={{
-        tabBarStyle: {backgroundColor: 'white'},
+        tabBarStyle: {
+          backgroundColor: theme === 'dark' ? '#000' : '#fff',
+        },
         tabBarActiveTintColor: '#FF6600',
         tabBarInactiveTintColor: 'gray',
         tabBarIndicatorStyle: {backgroundColor: '#FF6600'},

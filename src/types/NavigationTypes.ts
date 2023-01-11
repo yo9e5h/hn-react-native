@@ -17,6 +17,10 @@ export type RootStackParamList = {
   SinglePost: {
     story: Story;
   };
+  Share: {
+    story: Story;
+  };
+  Save: undefined;
   NotFound: undefined;
 };
 

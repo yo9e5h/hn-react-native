@@ -1,8 +1,9 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
 import {usePosts} from 'src/hooks/usePosts';
 import LoadingScreen from 'components/LoadingScreen';
 import StoryList from 'components/Home/StoryList';
+import {View} from 'components/Themed';
 
 const Top = () => {
   const [page, setPage] = React.useState<number>(0);
@@ -22,7 +23,7 @@ const Top = () => {
   };
 
   const loadMore = () => {
-    refetch();
+    setPage(page + 1);
   };
 
   const style = StyleSheet.create({
@@ -34,8 +35,6 @@ const Top = () => {
   return (
     <View style={style.container}>
       <StoryList
-        hasUrl={true}
-        isJob={false}
         data={data}
         refreshing={refreshing}
         onRefresh={handleRefresh}

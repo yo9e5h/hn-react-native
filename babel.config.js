@@ -9,6 +9,8 @@ module.exports = {
           navigation: './src/navigation',
           views: './src/views',
           types: './src/types',
+          constants: './src/constants',
+          hooks: './src/hooks',
           src: './src',
         },
       },
