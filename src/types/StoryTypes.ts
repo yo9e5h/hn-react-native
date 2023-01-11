@@ -9,3 +9,14 @@ export type Story = {
   type: string;
   url: string;
 };
+
+export type CommentType = {
+  by: string;
+  deleted: boolean;
+  id: number;
+  parent: number;
+  text: string;
+  time: number;
+  type: 'comment';
+  kids: number[];
+};
