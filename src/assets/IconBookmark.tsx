@@ -1,9 +1,19 @@
 import {Path, Svg} from 'react-native-svg';
 import React from 'react';
 
-const IconBookmark = ({color}: {color?: string}) => {
+const IconBookmark = ({
+  color,
+  fillColor,
+}: {
+  color?: string;
+  fillColor?: string;
+}) => {
   return (
-    <Svg width="24" height="24" fill="none" viewBox="0 0 24 24">
+    <Svg
+      width="24"
+      height="24"
+      fill={fillColor ? fillColor : 'none'}
+      viewBox="0 0 24 24">
       <Path
         stroke={color}
         stroke-linecap="round"
