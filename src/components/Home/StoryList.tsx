@@ -1,29 +1,27 @@
 import {FlashList} from '@shopify/flash-list';
 import NewsListItem from './NewsListItem';
 import React from 'react';
+import {View} from 'components/Themed';
 
 const StoryList = ({
   data,
   refreshing,
   onRefresh,
   onEndReached,
-  isJob,
-  hasUrl,
 }: {
   data?: readonly any[] | null | undefined;
   refreshing: boolean;
   onRefresh: () => void;
   onEndReached: () => void;
-  isJob: boolean;
-  hasUrl: boolean;
 }) => {
   return (
     <FlashList
       data={data}
-      renderItem={({item}) => (
-        <NewsListItem hasUrl={hasUrl} isJob={isJob} item={item} />
-      )}
+      renderItem={({item}) => <NewsListItem item={item} />}
       keyExtractor={item => item.id.toString()}
+      ItemSeparatorComponent={() => (
+        <View style={{height: 1}} darkColor="#1f2937" lightColor="#e5e7eb" />
+      )}
       estimatedItemSize={100}
       refreshing={refreshing}
       onRefresh={onRefresh}

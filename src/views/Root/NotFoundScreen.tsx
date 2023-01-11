@@ -1,6 +1,7 @@
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet} from 'react-native';
 import React from 'react';
 import {RootStackScreenProps} from 'types/NavigationTypes';
+import {Text, View} from 'components/Themed';
 
 const NotFoundScreen = ({navigation}: RootStackScreenProps<'NotFound'>) => {
   console.log(navigation);

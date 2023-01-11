@@ -1,86 +1,69 @@
-import {Linking, Pressable, Text, View} from 'react-native';
+import {Alert, Linking, Pressable, StyleSheet} from 'react-native';
 import {Story} from 'types/StoryTypes';
 import React from 'react';
-import moment from 'moment';
+import useTime from 'src/hooks/useTime';
+import {View, Text} from 'components/Themed';
+import useColorScheme from 'hooks/useColorScheme';
 
 const StoryItem = ({item}: {item: Story}) => {
+  const theme = useColorScheme();
   const loadInBrowser = () => {
-    Linking.openURL(item.url).catch(err =>
-      console.error("Couldn't load page", err),
-    );
+    try {
+      Linking.openURL(item.url);
+    } catch (error) {
+      Alert.alert('Error', 'Could not open link');
+    }
   };
 
-  // function extractDomain(url: string) {
-  //   var domain;
-  //   if (url.indexOf('://') > -1) {
-  //     domain = url.split('/')[2];
-  //   } else {
-  //     domain = url.split('/')[0];
-  //   }
-  //   if (domain.indexOf('www.') > -1) {
-  //     domain = domain.split('www.')[1];
-  //   }
-  //   domain = domain.split(':')[0];
-  //   domain = domain.split('?')[0];
-
-  //   return domain;
-  // }
-
-  console.log(item.url);
+  const styles = StyleSheet.create({
+    pressable: {
+      flexDirection: 'row',
+      borderBottomWidth: 1,
+      alignItems: 'center',
+      borderBottomColor: theme === 'dark' ? '#1f2937' : '#e5e7eb',
+      paddingVertical: 16,
+      paddingRight: 8,
+    },
+    scoreView: {
+      width: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 8,
+    },
+    scoreText: {
+      color: '#FF6600',
+      fontWeight: 'bold',
+    },
+    container: {
+      flex: 1,
+    },
+    titleText: {
+      fontWeight: '500',
+      fontSize: 14,
+    },
+    time: {
+      color: '#6b7280',
+      fontSize: 12,
+      paddingTop: 2,
+    },
+    url: {
+      color: '#6b7280',
+      fontSize: 12,
+      paddingTop: 2,
+    },
+  });
 
   return (
-    <Pressable
-      onPress={loadInBrowser}
-      style={{
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        alignItems: 'center',
-        borderBottomColor: '#ccc',
-        paddingVertical: 16,
-        paddingRight: 8,
-      }}>
-      <View
-        style={{
-          width: 30,
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 8,
-        }}>
-        <Text
-          style={{
-            color: '#FF6600',
-            fontWeight: 'bold',
-          }}>
-          {item.score}
-        </Text>
+    <Pressable onPress={loadInBrowser} style={styles.pressable}>
+      <View style={styles.scoreView}>
+        <Text style={styles.scoreText}>{item.score}</Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <Text
-          style={{
-            fontWeight: '500',
-            fontSize: 14,
-          }}>
-          {item.title}
+      <View style={styles.container}>
+        <Text style={styles.titleText}>{item.title}</Text>
+        <Text style={styles.time}>
+          {item.by} • {useTime(item.time)}
         </Text>
-        <Text
-          style={{
-            color: '#6b7280',
-            fontSize: 12,
-            paddingTop: 2,
-          }}>
-          {item.by} • {moment.unix(item.time).fromNow()}
-        </Text>
-        <Text
-          style={{
-            color: '#6b7280',
-            fontSize: 12,
-            paddingTop: 2,
-          }}>
-          {item.url}
-        </Text>
+        <Text style={styles.url}>{item.url}</Text>
       </View>
     </Pressable>
   );

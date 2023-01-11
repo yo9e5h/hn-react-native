@@ -1,7 +1,11 @@
-import {ActivityIndicator, StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet} from 'react-native';
 import React from 'react';
+import {View} from './Themed';
+import useColorScheme from 'hooks/useColorScheme';
 
 const LoadingScreen = () => {
+  const theme = useColorScheme();
+
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -12,7 +16,7 @@ const LoadingScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ActivityIndicator />
+      <ActivityIndicator color={theme === 'dark' ? '#fff' : '#000'} />
     </View>
   );
 };

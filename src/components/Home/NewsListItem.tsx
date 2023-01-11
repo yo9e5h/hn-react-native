@@ -1,90 +1,122 @@
-import {Pressable, Text, View} from 'react-native';
+import {Linking, Pressable} from 'react-native';
 import React from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {Story} from 'types/StoryTypes';
-import moment from 'moment';
+import useTime from 'src/hooks/useTime';
+import {View, Text} from 'components/Themed';
+import {StyleSheet} from 'react-native';
+import IconComment from 'src/assets/IconComment';
+import IconBookmark from 'src/assets/IconBookmark';
+import useColorScheme from 'hooks/useColorScheme';
 
-const NewsListItem = ({
-  item,
-  isJob,
-  hasUrl,
-}: {
-  item: Story;
-  isJob: boolean;
-  hasUrl: boolean;
-}) => {
+const NewsListItem = ({item}: {item: Story}) => {
+  const theme = useColorScheme();
   const navigation = useNavigation();
-  const time = moment.unix(item.time).fromNow();
+  const time = useTime(item.time);
+  const hasUrl = item.url !== undefined;
+  const isJob = item.type === 'job';
+
+  const handleLink = () => {
+    if (isJob) {
+      Linking.openURL(item.url);
+    } else {
+      navigation.navigate('SinglePost', {
+        story: item,
+      });
+    }
+  };
+
+  const style = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 12,
+      paddingRight: 8,
+    },
+    scoreView: {
+      width: 30,
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 8,
+    },
+    scoreText: {
+      color: '#FF6600',
+      fontWeight: 'bold',
+    },
+    sideView: {
+      flex: 1,
+    },
+    title: {
+      fontWeight: '500',
+      fontSize: 14,
+      marginRight: 12,
+    },
+    time: {
+      fontSize: 12,
+      paddingTop: 4,
+    },
+    commentAndBookmark: {
+      flexDirection: 'row',
+      paddingTop: 4,
+    },
+    labelWithIcon: {
+      flexDirection: 'row',
+      flex: 1,
+      justifyContent: 'flex-start',
+      alignItems: 'center',
+    },
+    label: {
+      marginLeft: 2,
+    },
+  });
 
   return (
-    <Pressable
-      onPress={() =>
-        navigation.navigate('SinglePost', {
-          story: item,
-        })
-      }
-      style={{
-        flexDirection: 'row',
-        borderBottomWidth: 1,
-        alignItems: 'center',
-        borderBottomColor: '#ccc',
-        paddingVertical: 16,
-        paddingRight: 8,
-      }}>
-      <View
-        style={{
-          width: 30,
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 8,
-        }}>
-        <Text
-          style={{
-            color: '#FF6600',
-            fontWeight: 'bold',
-          }}>
-          {item.score}
-        </Text>
+    <Pressable onPress={handleLink} style={style.container}>
+      <View style={style.scoreView}>
+        <Text style={style.scoreText}>{item.score}</Text>
       </View>
-      <View
-        style={{
-          flex: 1,
-        }}>
-        <Text
-          style={{
-            fontWeight: '500',
-            fontSize: 14,
-          }}>
+      <View style={style.sideView}>
+        <Text style={style.title} darkColor="#f3f4f6" lightColor="#1f2937">
           {item.title}
         </Text>
-        <Text
-          style={{
-            color: '#6b7280',
-            fontSize: 12,
-            paddingTop: 2,
-          }}>
+        <Text style={style.time} lightColor="#4b5563" darkColor="#d1d5db">
           {item.by} • {time}
         </Text>
-        {!isJob && (
+        {hasUrl && (
           <Text
-            style={{
-              color: '#6b7280',
-              fontSize: 12,
-              paddingTop: 2,
-            }}>
-            {item.descendants} comments
+            style={style.time}
+            numberOfLines={1}
+            darkColor="#6b7280"
+            lightColor="#6b7280">
+            {item.url
+              .replace('http://', '')
+              .replace('https://', '')
+              .replace('www.', '')}
           </Text>
         )}
-        {hasUrl ? (
-          <Text
-            style={{
-              color: '#6b7280',
-              fontSize: 12,
-              paddingTop: 2,
-            }}>
-            {item.url}
-          </Text>
-        ) : null}
+        {!isJob && (
+          <View style={style.commentAndBookmark}>
+            <View style={style.labelWithIcon}>
+              <IconComment color={theme === 'dark' ? '#38bdf8' : '#0284c7'} />
+              <Text
+                style={style.label}
+                lightColor="#0284c7"
+                darkColor="#38bdf8">
+                {item.descendants}{' '}
+                {item.descendants > 1 ? 'Comments' : 'Comment'}
+              </Text>
+            </View>
+            <Pressable style={style.labelWithIcon}>
+              <IconBookmark color={theme === 'dark' ? '#22c55e' : '#16a34a'} />
+              <Text
+                style={style.label}
+                lightColor="#16a34a"
+                darkColor="#22c55e">
+                Save
+              </Text>
+            </Pressable>
+          </View>
+        )}
       </View>
     </Pressable>
   );

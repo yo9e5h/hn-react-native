@@ -10,6 +10,8 @@
       "navigation/*": ["src/navigation/*"],
       "views/*": ["src/views/*"],
       "types/*": ["src/types/*"],
+      "hooks/*": ["src/hooks/*"],
+      "constants/*": ["src/constants/*"],
       "src/*": ["src/*"]
     }
    }
